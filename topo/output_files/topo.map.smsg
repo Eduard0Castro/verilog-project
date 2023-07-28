@@ -1,3 +1,0 @@
-Warning (10268): Verilog HDL information at moore.v(46): always construct contains both blocking and non-blocking assignments File: C:/Users/Eduardo Castro/Documents/Quartus/Projeto_2/topo/moore.v Line: 46
-Info (10281): Verilog HDL Declaration information at topo.v(4): object "HEX_addr" differs only in case from object "hex_addr" in the same scope File: C:/Users/Eduardo Castro/Documents/Quartus/Projeto_2/topo/topo.v Line: 4
-Info (10281): Verilog HDL Declaration information at topo.v(5): object "HEX_oper" differs only in case from object "hex_oper" in the same scope File: C:/Users/Eduardo Castro/Documents/Quartus/Projeto_2/topo/topo.v Line: 5

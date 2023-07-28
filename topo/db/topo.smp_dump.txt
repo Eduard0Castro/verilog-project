@@ -1,7 +1,0 @@
-
-State Machine - |topo|moore:m_moore|sta
-Name sta.conta sta.execute sta.decode sta.fetch 
-sta.fetch 0 0 0 0 
-sta.decode 0 0 1 1 
-sta.execute 0 1 0 1 
-sta.conta 1 0 0 1 
