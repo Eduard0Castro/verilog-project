@@ -1,0 +1,59 @@
+module topo ( 
+
+input wire clk, rst, 
+output wire [6:0]HEX_addr, 
+output wire [6:0]HEX_oper, 
+output wire [6:0]HEX_reg_a, 
+output wire [6:0]HEX_reg_b, 
+output wire [6:0]HEX_reg_c,
+output wire [1:0] state
+
+);
+
+wire clkOut, lockedPLL1, lockedPLL2;
+wire [3:0]addr;
+wire hab;
+wire [7:0] dados;
+
+assign hab = 1'b1;
+
+wire hab_ri, hab_pc, hab_rd, hab_ro, hab_rc, hab_re;
+wire fim_pc, fim_ra, fim_rb, fim_rc, fim_rd, fim_ri, fim_ro, fim_re;
+wire [3:0] saida_dados;
+wire [3:0] saida_oper;
+wire [3:0] saida_ro;
+wire [1:0] reg_a_b;
+wire [3:0] ula;
+wire [3:0] saida_rd;
+wire [1:0] reg_exe;
+wire [3:0] ula_exe;
+wire [3:0] saida_a;
+wire [3:0] saida_b;
+wire [3:0] saida_ula;
+wire [3:0] pc;
+
+
+
+geradorClock geraclk (clk, rst, clkOut, lockedPLL1, lockedPLL2 );
+mem_rom memory (pc, clkOut, hab, dados);
+registro_l r_Inst (dados, clkOut, rst, hab_ri, saida_dados, saida_oper, fim_ri);
+registro r_oper (saida_oper, clkOut, rst, hab_ro, saida_ro, fim_ro);
+decodificador decode (saida_ro, reg_a_b, ula);
+registro r_dados (saida_dados, clkOut, rst, hab_rd, saida_rd, fim_rd);
+executa execute (clkOut, hab_re, rst, {reg_a_b, ula}, reg_exe, ula_exe);
+registro RA (saida_rd, clkOut, rst, reg_exe[1], saida_a, fim_ra);
+registro RB (saida_rd, clkOut, rst, reg_exe[0], saida_b, fim_rb);
+alu ula_1 (saida_a, saida_b, ula_exe, clkOut, saida_ula);
+registro_RC RC (saida_ula, clkOut, rst, hab_rc, fim_rc); 
+moore m_moore (clkOut, rst, fim_pc, fim_ra, fim_rb, fim_rc, fim_rd, fim_ri, fim_ro, fim_re, hab_pc, hab_rd, hab_ro, hab_rc, hab_re, hab_ri, state );
+contador counter (clkOut, hab_pc, rst, fim_pc, pc);
+bcd27seg hex_a (saida_a, HEX_reg_a);
+bcd27seg hex_b (saida_b, HEX_reg_b);
+bcd27seg hex_c (saida_ula, HEX_reg_c);
+bcd27seg hex_addr (pc, HEX_addr);
+bcd27seg hex_oper (saida_ro, HEX_oper);
+
+endmodule
+
+
+
