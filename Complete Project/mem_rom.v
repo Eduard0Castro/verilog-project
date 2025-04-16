@@ -12,7 +12,7 @@ begin
 
 	if(habilita)
 	begin
-		$readmemb("C:/Users/Eduardo Castro/Documents/Quartus/Projeto_2/topo/programa.txt", buffer);
+		$readmemb(	"C:/Users/sirle/Downloads/verilog-project/Complete Project/programa.txt", buffer);
 		dados <= buffer[addr];
 	end
 
